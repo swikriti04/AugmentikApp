@@ -23,36 +23,36 @@ export const Login = ({navigation}) => {
     };
 
     const sendVerification = () => {
-        navigation.navigate('signUp', {phoneNo: phoneNo});
-        // axios(config)
-        // .then((response) => {
-        //     //setData(JSON.stringify(response.data));
-        //     //console.log(JSON.stringify(response.data));
-        //     let res = response.data;
-        //     console.log(res);
-        //     let nmbr = phoneNo.replace('+','');
-        //     console.log(nmbr);
-        //     let found = res.find(item => item.PhoneNo===nmbr);
-        //     if(found){
-        //         some && setSome(false)
-        //         navigation.navigate('Site', {phoneNo});
-        //     }else{
-        //         const phoneProvider = new firebase.auth.PhoneAuthProvider();
-        //         //console.log(recaptchaVerifier)
-        //         const phNo = phoneProvider
-        //         .verifyPhoneNumber(phoneNo, recaptchaVerifier.current)
-        //         .then((verificationId) => {
-        //             Alert.alert('OTP Sent', 'OTP Sent to Your Phone')
-        //             console.log('Verification sent');
-        //             setShow('show otp')
-        //             setVerificationId(verificationId);
-        //             })
-        //         //console.log("Phone Provide: ",phNo);
-        //         console.log("data not present!!!");
-        //     }
-        // }).catch(function (error) {
-        //     console.log(error);
-        // });
+        //navigation.navigate('signUp', {phoneNo: phoneNo});
+        axios(config)
+        .then((response) => {
+            //setData(JSON.stringify(response.data));
+            //console.log(JSON.stringify(response.data));
+            let res = response.data;
+            console.log(res);
+            let nmbr = phoneNo.replace('+','');
+            console.log(nmbr);
+            let found = res.find(item => item.PhoneNo===nmbr);
+            if(found){
+                some && setSome(false)
+                navigation.navigate('Site', {phoneNo});
+            }else{
+                const phoneProvider = new firebase.auth.PhoneAuthProvider();
+                //console.log(recaptchaVerifier)
+                const phNo = phoneProvider
+                .verifyPhoneNumber(phoneNo, recaptchaVerifier.current)
+                .then((verificationId) => {
+                    Alert.alert('OTP Sent', 'OTP Sent to Your Phone')
+                    console.log('Verification sent');
+                    setShow('show otp')
+                    setVerificationId(verificationId);
+                    })
+                //console.log("Phone Provide: ",phNo);
+                console.log("data not present!!!");
+            }
+        }).catch(function (error) {
+            console.log(error);
+        });
         // if(phoneNo.length === 13){
         //     const phoneProvider = new firebase.auth.PhoneAuthProvider();
         //     //console.log(recaptchaVerifier)

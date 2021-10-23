@@ -23,24 +23,24 @@ export const Verification = ({navigation}) => {
     };
 
     const sendVerification = () => {
-        navigation.navigate('Inspection', {phoneNo: phoneNo});
-        // if(phoneNo.length === 13){
-        //     const phoneProvider = new firebase.auth.PhoneAuthProvider();
-        //     //console.log(recaptchaVerifier)
-        //     phoneProvider
-        //     .verifyPhoneNumber(phoneNo, recaptchaVerifier.current)
-        //     .then((verificationId) => {
-        //         Alert.alert('OTP Sent', 'OTP Sent to Your Phone')
-        //         console.log('Verification sent');
-        //         //console.log(setVerificationId);
-        //         setShow('show otp')
-        //         setVerificationId(verificationId);
-        //         // let id = verificationId;
-        //         // return id
-        //     })
-        // }else{
-        //     Alert.alert('Invalid Phone Number', 'Please enter a valid phone number', [{text: 'OK'}])
-        // }
+        //navigation.navigate('Inspection', {phoneNo: phoneNo});
+        if(phoneNo.length === 13){
+            const phoneProvider = new firebase.auth.PhoneAuthProvider();
+            //console.log(recaptchaVerifier)
+            phoneProvider
+            .verifyPhoneNumber(phoneNo, recaptchaVerifier.current)
+            .then((verificationId) => {
+                Alert.alert('OTP Sent', 'OTP Sent to Your Phone')
+                console.log('Verification sent');
+                //console.log(setVerificationId);
+                setShow('show otp')
+                setVerificationId(verificationId);
+                // let id = verificationId;
+                // return id
+            })
+        }else{
+            Alert.alert('Invalid Phone Number', 'Please enter a valid phone number', [{text: 'OK'}])
+        }
     };
 
     const confirmCode = async () => {
@@ -141,10 +141,10 @@ export const Verification = ({navigation}) => {
                                 borderRadius: 70
                         }}
                             onPress={async () =>{
-                            navigation.navigate('Inspection');
+                            //navigation.navigate('Inspection');
 
                             // console.log(phoneNo);
-                            // phoneNo.length === 13 ? sendVerification() : Alert.alert('Invalid Phone Number', 'Please enter a valid phone number', [{text: 'OK'}])
+                            phoneNo.length === 13 ? sendVerification() : Alert.alert('Invalid Phone Number', 'Please enter a valid phone number', [{text: 'OK'}])
                         }}
                         >
                             <Text style={{

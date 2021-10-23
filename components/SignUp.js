@@ -99,8 +99,8 @@ export const SignUp = ({navigation, route}) => {
                 />
                 <TouchableOpacity
                         onPress = {() => {
-                            //handleSubmit()
-                            navigation.navigate('Site')
+                            handleSubmit()
+                            //navigation.navigate('Site')
                             
                         }}
                     style={{

@@ -9,26 +9,46 @@ import { vh, vw } from 'react-native-expo-viewport-units';
 import { RNS3 } from 'react-native-aws3';
 import { Config } from './config';
 import { RadioButton } from 'react-native-paper';
+import { Headerm } from './headerm';
 
 const s3URLArray = [];
 let j = 0;
 const monthNo=[1,2,3,4,5,6];
-const dir = ['east', 'west', 'north', 'south'];
+const dir = ['East', 'West', 'North', 'South'];
 const dirPhotu = [];
 let i = 0;
 export const Inspection = ({navigation}) => {
 
+    const [connect, setConnect] = useState('');
+    const [load, setLoad] = useState('');
+    const [voltage, setVoltage] = useState('');
 
     const [wallChecked, setWallChecked] = useState('');
-    const [parapetCheck, setParapetCheck] = useState('No');
+    const [parapetCheck, setParapetCheck] = useState('');
     const [parapetValue, setParapetValue] = useState('');
 
+    const [consChecked, setConsChecked] = useState('');
+    const [consCheck, setConsCheck] = useState('');
+    const [consValue, setConsValue] = useState('');
+
+    const [birdChecked, setbirdChecked] = useState('');
+    const [birdCheck, setbirdCheck] = useState('');
+    const [birdValue, setbirdValue] = useState('');
+
+    const [monkChecked, setMonkChecked] = useState('');
+    const [monkCheck, setMonkCheck] = useState('');
+    const [monkValue, setMonkValue] = useState('');
+
+    const [eleChecked, setEleChecked] = useState('');
+    const [eleCheck, setEleCheck] = useState('');
+    const [eleValue, setEleValue] = useState('');
+
     const [highChecked, setHighChecked] = useState('');
-    const [heightCheck, setHeightCheck] = useState('No');
+    const [heightCheck, setHeightCheck] = useState('');
     const [heightValue, setHeightValue] = useState('');
 
     const [strChecked, setStrChecked] = useState('');
-    const [strCheck, setStrCheck] = useState('No');
+    const [strCheck, setStrCheck] = useState('');
     const [strValue, setStrValue] = useState('');
 
     const [name, setName] = useState('');
@@ -76,16 +96,60 @@ export const Inspection = ({navigation}) => {
 
     const handleSubmit = () => {
         let formdata = new FormData();
-            formdata.append("name", name);
-            formdata.append("photo", s3uri);
+            formdata.append("Client's Name", name);
+            formdata.append("Address", adres);
+            formdata.append("Name POC", point);
+            formdata.append("Height of Building", heightB);
+            formdata.append("Distance of Airport", dAirp);
+            formdata.append("Roof Access", roofAccess);
+            formdata.append("Material Delivery", delivery);
+            formdata.append("Dimensions of Roof", dRoof);
+            formdata.append("Nearby Building Distance", dNBuild);
+            formdata.append("Nearby Building Height", nHeightB);
+            formdata.append("Building Type", build);
+            formdata.append("Roof Type", roofType);
+            formdata.append("Age of Building", agBuild);
+            formdata.append("Parapet Wall on Roof", parapetCheck);
+            formdata.append("Height of Parapet Wall", parapetValue);
+            formdata.append("Is SIte Fully Constructed", consCheck);
+            formdata.append("Time of Completion", consValue);
+            formdata.append("Problem of Monkey", monkCheck);
+            formdata.append("Problem of Birds", birdCheck);
+            formdata.append("Is Elevated Structure", eleCheck);
+            formdata.append("Elevated Structure", eleValue);
+            formdata.append("Any Nearby HighRise Building", heightCheck);
+            formdata.append("HighRise Height & Distance", heightValue);
+            formdata.append("Any Equipment on Roof", strCheck);
+            formdata.append("Dimensions of Equipment", strValue);
+            formdata.append("City", city);
+            formdata.append("District", district);
+            formdata.append("State", states);
+            formdata.append("POC Mobile No.", mobP);
+            formdata.append("Client's Email", emailC);
+            formdata.append("POC's Email", emailP);
+            formdata.append("No. of Connection", connect);
+            formdata.append("Connection Load", load);
+            formdata.append("Connection Voltage", voltage);
+            formdata.append("Building Ownership", BuildingOwnership);
+            formdata.append("Age of Roof", agRoof);
+            formdata.append("Height of Roof", hRoof);
+            formdata.append("Length of DC Cable", dcCable);
+            formdata.append("Length of AC Cable", acCable);
+            formdata.append("Distance of Bus Terminus", dBus);
+            formdata.append("Name of Bus Terminus", nBus);
+            formdata.append("Distance of Railway Station", dRail);
+            formdata.append("Name of Railway Station", nRail);
+            formdata.append("Name of Airport", nAirp);
+            formdata.append("Client's Mob No.", mobC);
+            //formdata.append("photo", s3uri);
             formdata.append("Latitude", loc.latitude);
             formdata.append("Longitude", loc.longitude);
-            formdata.append("Month1", monthNo[0]);
-            formdata.append("Month2", monthNo[1]);
-            formdata.append("Month3", monthNo[2]);
-            formdata.append("Month4", monthNo[3]);
-            formdata.append("Month5", monthNo[4]);
-            formdata.append("Month6", monthNo[5]);
+            formdata.append("Month1", s3URLArray[0]);
+            formdata.append("Month2", s3URLArray[1]);
+            formdata.append("Month3", s3URLArray[2]);
+            formdata.append("Month4", s3URLArray[3]);
+            formdata.append("Month5", s3URLArray[4]);
+            formdata.append("Month6", s3URLArray[5]);
             formdata.append("East", dirPhotu[0]);
             formdata.append("West", dirPhotu[1]);
             formdata.append("North", dirPhotu[2]);
@@ -197,7 +261,7 @@ export const Inspection = ({navigation}) => {
 
         return (
             <View style={styles.container}>
-            <Header headerName={'Inspection'} navigation={navigation}/>
+            <Headerm headerName={'Inspection'} navigation={navigation}/>
             <ScrollView
                 style={{
                     marginTop: '30%',
@@ -509,7 +573,7 @@ export const Inspection = ({navigation}) => {
                         <TextInput 
                             style={styles.input} 
                             placeholder='Enter parapet walls height in metres'
-                            onChangeText={(text) => setParapetHeight(text)}
+                            onChangeText={(text) => setParapetValue(text)}
                         />
                         :
                         null
@@ -660,6 +724,275 @@ export const Inspection = ({navigation}) => {
                         :
                         null
                     }
+                    <View
+                    style={styles.inputpi}
+                >
+                    <Text
+                        style={{
+                            fontWeight: 'bold',
+                            color: '#FDA162',
+                            padding: 10,
+                            marginLeft: 20,
+                            marginTop: 20,
+                            fontSize: 15,
+                        }} 
+                    >
+                        Is Site Fully Constructed ?
+                    </Text>
+                    <TouchableOpacity 
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            marginLeft: 20,
+                        }}
+                    >
+                        <RadioButton 
+                            value="Yes"
+                            status={ consChecked === 'Yes' ? 'checked' : 'unchecked' }
+                            onPress={() => {
+                                setConsChecked('Yes')
+                                setConsCheck('Yes')
+                            }}
+                        />
+                        <Text style={{
+                            color: '#000',
+                        }}>
+                            Yes
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            marginLeft: 20,
+                            marginBottom:10,
+                        }}
+                    >
+                        <RadioButton 
+                            value="No"
+                            status={ consChecked === 'no' ? 'checked' : 'unchecked' }
+                            onPress={() => {
+                                setConsChecked('no')
+                                setConsCheck('No')
+                            }}
+                        />
+                        <Text style={{
+                            color: '#000',
+                            marginTop: 8,
+                        }}>
+                            No
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+                    {
+                        consCheck === 'No' ? 
+                        <TextInput 
+                            style={styles.input} 
+                            placeholder='Tentative Time For Completion'
+                            onChangeText={(text) => setConsValue(text)}
+                        />
+                        
+                        :
+                        null
+                    }
+
+                    <View
+                    style={styles.inputpi}
+                >
+                    <Text
+                        style={{
+                            fontWeight: 'bold',
+                            color: '#FDA162',
+                            padding: 10,
+                            marginLeft: 20,
+                            marginTop: 20,
+                            fontSize: 15,
+                        }} 
+                    >
+                        Is Elevated Structure OK ?
+                    </Text>
+                    <TouchableOpacity 
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            marginLeft: 20,
+                        }}
+                    >
+                        <RadioButton 
+                            value="Yes"
+                            status={ eleChecked === 'Yes' ? 'checked' : 'unchecked' }
+                            onPress={() => {
+                                setEleChecked('Yes')
+                                setEleCheck('Yes')
+                            }}
+                        />
+                        <Text style={{
+                            color: '#000',
+                        }}>
+                            Yes
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            marginLeft: 20,
+                            marginBottom:10,
+                        }}
+                    >
+                        <RadioButton 
+                            value="No"
+                            status={ eleChecked === 'no' ? 'checked' : 'unchecked' }
+                            onPress={() => {
+                                setEleChecked('no')
+                                setEleCheck('No')
+                            }}
+                        />
+                        <Text style={{
+                            color: '#000',
+                            marginTop: 8,
+                        }}>
+                            No
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+                    {
+                        eleCheck === 'No' ? 
+                        <TextInput 
+                            style={styles.input} 
+                            placeholder='Add Comments'
+                            onChangeText={(text) => setEleValue(text)}
+                        />
+                        
+                        :
+                        null
+                    }
+
+                    <View
+                    style={styles.inputpi}
+                >
+                    <Text
+                        style={{
+                            fontWeight: 'bold',
+                            color: '#FDA162',
+                            padding: 10,
+                            marginLeft: 20,
+                            marginTop: 20,
+                            fontSize: 15,
+                        }} 
+                    >
+                        Is There Any Problem of Birds in Locality ?
+                    </Text>
+                    <TouchableOpacity 
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            marginLeft: 20,
+                        }}
+                    >
+                        <RadioButton 
+                            value="Yes"
+                            status={ birdChecked === 'Yes' ? 'checked' : 'unchecked' }
+                            onPress={() => {
+                                setbirdChecked('Yes')
+                                setbirdCheck('Yes')
+                            }}
+                        />
+                        <Text style={{
+                            color: '#000',
+                        }}>
+                            Yes
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            marginLeft: 20,
+                            marginBottom:10,
+                        }}
+                    >
+                        <RadioButton 
+                            value="No"
+                            status={ birdChecked === 'no' ? 'checked' : 'unchecked' }
+                            onPress={() => {
+                                setbirdChecked('no')
+                                setbirdCheck('No')
+                            }}
+                        />
+                        <Text style={{
+                            color: '#000',
+                            marginTop: 8,
+                        }}>
+                            No
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+
+                    <View
+                    style={styles.inputpi}
+                >
+                    <Text
+                        style={{
+                            fontWeight: 'bold',
+                            color: '#FDA162',
+                            padding: 10,
+                            marginLeft: 20,
+                            marginTop: 20,
+                            fontSize: 15,
+                        }} 
+                    >
+                        Is There Any Problem of Monkeys in Locality ?
+                    </Text>
+                    <TouchableOpacity 
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            marginLeft: 20,
+                        }}
+                    >
+                        <RadioButton 
+                            value="Yes"
+                            status={ monkChecked === 'Yes' ? 'checked' : 'unchecked' }
+                            onPress={() => {
+                                setMonkChecked('Yes')
+                                setMonkCheck('Yes')
+                            }}
+                        />
+                        <Text style={{
+                            color: '#000',
+                        }}>
+                            Yes
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            marginLeft: 20,
+                            marginBottom:10,
+                        }}
+                    >
+                        <RadioButton 
+                            value="No"
+                            status={ monkChecked === 'no' ? 'checked' : 'unchecked' }
+                            onPress={() => {
+                                setMonkChecked('no')
+                                setMonkCheck('No')
+                            }}
+                        />
+                        <Text style={{
+                            color: '#000',
+                            marginTop: 8,
+                        }}>
+                            No
+                        </Text>
+                    </TouchableOpacity>
+                </View>
                 <View
                     style={styles.inputpi}
                 >
@@ -691,17 +1024,25 @@ export const Inspection = ({navigation}) => {
                             borderRadius: 20,
                         }}
                         placeholder='Enter number of connections'
+                        onChangeText={(ll)=> {setConnect}}
                      />
                 </View>
                     
                     <TextInput
                         style={styles.input}
                         placeholder='Enter sanctioned load of connections'
+                        onChangeText={(la)=> {setLoad}}
                     />
                     <TextInput
                         style={styles.input}
                         placeholder='Enter connected voltages'
+                        onChangeText={(lb)=> {setVoltage}}
                     />
+                    <Text style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        marginLeft: 58,
+                    }}>Upload Electricity Bill of Past Six Months</Text>
                 {
                     j < 6 ?
                     <TouchableOpacity
@@ -727,7 +1068,7 @@ export const Inspection = ({navigation}) => {
                             }} 
                            
                         >
-                            Upload Electricity Bill Image of month {monthNo[j]}
+                            Upload Electricity Bill Image of Month {monthNo[j]}
                         </Text>
                     </TouchableOpacity>
                     :
@@ -754,6 +1095,11 @@ export const Inspection = ({navigation}) => {
                         </Text>
                     </View>
                 }
+                <Text style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginLeft: 38,
+                }}>Upload Site Image of Directions Mentioned Below</Text>
                 {
                     i < 4 ?
                     <TouchableOpacity
@@ -779,7 +1125,7 @@ export const Inspection = ({navigation}) => {
                             }} 
                         
                         >
-                            Upload photu of direction {dir[i]}
+                            Upload Photo of {dir[i]}  Direction
                         </Text>
                     </TouchableOpacity>
                     :

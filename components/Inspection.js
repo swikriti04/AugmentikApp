@@ -9,8 +9,13 @@ import { vh, vw } from 'react-native-expo-viewport-units';
 import { RNS3 } from 'react-native-aws3';
 import { Config } from './config';
 import { RadioButton } from 'react-native-paper';
+//import {shortUrl} from 'node-url-shortener'
+
+//var shortUrl = require('node-url-shortener');
 
 export const Inspection = ({navigation}) => {
+
+    let s3URLArray = []
 
     const [wallChecked, setWallChecked] = useState('');
     const [parapetCheck, setParapetCheck] = useState('No');
@@ -19,6 +24,10 @@ export const Inspection = ({navigation}) => {
     const [highChecked, setHighChecked] = useState('');
     const [heightCheck, setHeightCheck] = useState('No');
     const [heightValue, setHeightValue] = useState('');
+
+    const [strChecked, setStrChecked] = useState('');
+    const [strCheck, setStrCheck] = useState('No');
+    const [strValue, setStrValue] = useState('');
 
     const [name, setName] = React.useState('');
     const [adres, setAdres] = React.useState('');
@@ -129,9 +138,15 @@ export const Inspection = ({navigation}) => {
                 // if (response.status !== 201)
                 // throw new Error("Failed to upload image to S3 bucket");
                 //console.log("Response s3: ",response.body.postResponse.location);
-                setS3Uri(response.body.postResponse.location);
+                shortUrl.short(response.body.postResponse.location, function(err, url){
+                    console.log(url);
+                    setS3Uri(url)
+                });
+                s3URLArray.push(s3uri)
+                //setS3Uri(response.body.postResponse.location);
                 setShow('blah')
                 console.log(s3uri);
+                console.log(s3URLArray)
             })
 
         }
@@ -383,61 +398,7 @@ export const Inspection = ({navigation}) => {
                     </Picker>
                 </View>
 
-                {
-                    show === 'No-show' ?
-                <TouchableOpacity
-                    onPress = {() => {
-                            onChooseImagePress()
-                        }}
-                    style={{
-                        backgroundColor: '#fff',
-                        borderRadius: 50,
-                        width: vw(89),
-                        marginLeft: 20,
-                        marginTop: 20,
-                        padding: 15,
-                        marginBottom: 18,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}
-                >
-                    <Text 
-                        style={{
-                            fontWeight: 'bold',
-                            color: '#FDA162',
-                        }} 
-                       
-                    >
-                        Upload Electricity Bill Image
-                    </Text>
-                </TouchableOpacity>
-                :
-                <View>
-                    <TouchableOpacity
-                        style={{
-                            backgroundColor: '#fff',
-                            borderRadius: 50,
-                            width: vw(89),
-                            marginLeft: 20,
-                            marginTop: 20,
-                            padding: 15,
-                            marginBottom: 18,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}
-                    >
-                        <Text 
-                            style={{
-                                fontWeight: 'bold',
-                                color: '#FDA162',
-                            }} 
-                        >
-                            Uploaded
-                        </Text>
-                    </TouchableOpacity>
-
-                </View>
-    }
+                
                 {/* Parapet Check */}
                 <View
                     style={styles.inputpi}
@@ -459,6 +420,8 @@ export const Inspection = ({navigation}) => {
                             display: 'flex',
                             flexDirection: 'row',
                             alignItems: 'center',
+                            marginLeft: 20,
+                            
                         }}
                     >
                         <RadioButton 
@@ -479,6 +442,8 @@ export const Inspection = ({navigation}) => {
                         style={{
                             display: 'flex',
                             flexDirection: 'row',
+                            marginLeft: 20,
+                            marginBottom:10,
                         }}
                     >
                         <RadioButton 
@@ -528,6 +493,7 @@ export const Inspection = ({navigation}) => {
                             display: 'flex',
                             flexDirection: 'row',
                             alignItems: 'center',
+                            marginLeft: 20,
                         }}
                     >
                         <RadioButton 
@@ -548,6 +514,8 @@ export const Inspection = ({navigation}) => {
                         style={{
                             display: 'flex',
                             flexDirection: 'row',
+                            marginLeft: 20,
+                            marginBottom:10,
                         }}
                     >
                         <RadioButton 
@@ -570,9 +538,83 @@ export const Inspection = ({navigation}) => {
                         heightCheck === 'Yes' ? 
                         <TextInput 
                             style={styles.input} 
-                            placeholder='Enter distance and height'
+                            placeholder='Enter Building Height And Distance'
                             onChangeText={(text) => setHeightValue(text)}
                         />
+                        
+                        :
+                        null
+                    }
+
+                <View
+                    style={styles.inputpi}
+                >
+                    <Text
+                        style={{
+                            fontWeight: 'bold',
+                            color: '#FDA162',
+                            padding: 10,
+                            marginLeft: 20,
+                            marginTop: 20,
+                            fontSize: 15,
+                        }} 
+                    >
+                        Any Major Equipment on Roof (Water Tank, Ventilating Unit etc)?
+                    </Text>
+                    <TouchableOpacity 
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            marginLeft: 20,
+                        }}
+                    >
+                        <RadioButton 
+                            value="Yes"
+                            status={ strChecked === 'Yes' ? 'checked' : 'unchecked' }
+                            onPress={() => {
+                                setStrChecked('Yes')
+                                setStrCheck('Yes')
+                            }}
+                        />
+                        <Text style={{
+                            color: '#000',
+                        }}>
+                            Yes
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            marginLeft: 20,
+                            marginBottom:10,
+                        }}
+                    >
+                        <RadioButton 
+                            value="No"
+                            status={ strChecked === 'no' ? 'checked' : 'unchecked' }
+                            onPress={() => {
+                                setStrChecked('no')
+                                setStrCheck('No')
+                            }}
+                        />
+                        <Text style={{
+                            color: '#000',
+                            marginTop: 8,
+                        }}>
+                            No
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+                    {
+                        strCheck === 'Yes' ? 
+                        <TextInput 
+                            style={styles.input} 
+                            placeholder='Dimensions of Equipment'
+                            onChangeText={(text) => setStrValue(text)}
+                        />
+                        
                         :
                         null
                     }
@@ -585,31 +627,71 @@ export const Inspection = ({navigation}) => {
                             padding: 10,
                         }}
                     >
-                        Number of electricity connections of site (1,2,3….)
+                        Number of electricity connections of site (1, 2, 3...)
                     </Text>
                     <Text
                         style={{
-                            fontWeight: 'bold',
-                            color: '#FDA162',
+                            //fontWeight: 'bold',
+                            color: 'red',
                             padding: 10,
                         }}
                         >
                         If connections > 1, enter load and voltage of each connection separated by comma(,)
                     </Text>
-                </View>
                     <TextInput
-                        style={styles.input}
+                        style={{
+                            backgroundColor: '#F4F5FC',
+                            borderColor: '#FDA162',
+                            borderWidth: 3,      
+                            padding: 20,
+                            margin: 10,
+                            width: '94%',
+                            borderRadius: 20,
+                        }}
                         placeholder='Enter number of connections'
                      />
+                </View>
+                    
                     <TextInput
                         style={styles.input}
-                        placeholder='Enter sanctioned load of connection'
+                        placeholder='Enter sanctioned load of connections'
                     />
                     <TextInput
                         style={styles.input}
-                        placeholder='Enter connected voltage'
+                        placeholder='Enter connected voltages'
                     />
-            </ScrollView>
+            {
+                    show === 'No-show' ?
+                <TouchableOpacity
+                    onPress = {() => {
+                            onChooseImagePress()
+                        }}
+                    style={{
+                        backgroundColor: '#fff',
+                        borderRadius: 50,
+                        width: vw(89),
+                        marginLeft: 20,
+                        marginTop: 20,
+                        padding: 15,
+                        marginBottom: 18,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                >
+                    <Text 
+                        style={{
+                            fontWeight: 'bold',
+                            color: '#FDA162',
+                        }} 
+                       
+                    >
+                        Upload Electricity Bill Image
+                    </Text>
+                </TouchableOpacity>
+                :
+                null
+                
+    }
             <TouchableOpacity
                         onPress = {() => {
                             handleSubmit()
@@ -637,6 +719,7 @@ export const Inspection = ({navigation}) => {
                         Select Proposal
                     </Text>
                 </TouchableOpacity>
+            </ScrollView>
             </View>
         )
 }

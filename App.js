@@ -3,6 +3,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Login } from './components/Login';
 import { SignUp } from './components/SignUp';
+import { Site } from './components/Site';
 import { Verification } from './components/Verification';
 import { Inspection } from './components/Inspection';
 import { ProSelection } from './components/ProSelection';
@@ -31,6 +32,13 @@ const signUpScreen = ({ navigation, route}) => {
   //console.log(navigation)
   return (
     <SignUp navigation={navigation} route={route}/>
+  )
+}
+
+const siteScreen = ({ navigation, route}) => {
+  //console.log(navigation)
+  return (
+    <Site navigation={navigation} route={route}/>
   )
 }
 
@@ -65,6 +73,7 @@ export default function App() {
         >
           <Stack.Screen name="Login" component={LoginScreen} options = {myOptions}/>
           <Stack.Screen name="signUp" component={signUpScreen} options= {{...myOptions, title:"Sign Up"}}/>
+          <Stack.Screen name="Site" component={siteScreen} options= {{...myOptions, title:"Site"}}/>
           <Stack.Screen name="Verification" component={VeriScreen} options= {{...myOptions, title:"Verification"}}/>
           <Stack.Screen name="Inspection" component={InspScreen} options= {{...myOptions, title:"Inspection"}}/>
           <Stack.Screen name="ProSelect" component={ProScreen} options= {{...myOptions, title:"Proposal"}}/>

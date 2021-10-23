@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import {styles} from '../assets/style'
 import { Text, View, Button, ScrollView, TextInput, TouchableOpacity} from 'react-native'
 import { Picker} from "react-native";
@@ -7,15 +7,51 @@ import { Header } from './header';
 
 
 
-export const SignUp = ({navigation}) => {
+export const SignUp = ({navigation, route}) => {
 
+    const { phoneNo } = route.params;
+    const [phoneNmbr, setPhoneNo] = useState(phoneNo);
     const [name, setName] = React.useState('');
     const [alPhone, setALPhone] = React.useState('');
     const [email, setEmail] = React.useState('');
     const [city, setCity] = React.useState('');
     const [district, setDistrict] = React.useState('');
     const [states, setStates] = React.useState('');
-    const [occupation, setOccupation] = React.useState('');
+
+    const handleSubmit = () => {
+
+        if(name.length===0 || email.length === 0 || city.length===0 || district.length ===0 || states.length===0 ){
+            Alert.alert("* Fields are required","Fill all the Required Fields")
+        }
+        else{
+
+            var formdata = new FormData();
+                formdata.append("PartnerId", Math.floor(Math.random() * 1000000) + 1000);
+                formdata.append("PhoneNo", phoneNmbr);
+                formdata.append("name", name);
+                formdata.append("alternatePhone", alPhone);
+                formdata.append("email", email);
+                formdata.append("City", city);
+                formdata.append("District", district);
+                formdata.append("State", states);
+        
+                console.log(formdata);
+                
+                var requestOptions = {
+                  method: 'POST',
+                  body: formdata,
+                  redirect: 'follow'
+                };
+                
+                fetch("https://sheet.best/api/sheets/4c94b24a-cb78-4f28-83ac-db543d230840", requestOptions)
+                  .then(response => response.text())
+                  .then(result => console.log(result))
+                  .catch(error => console.log('error', error));
+    
+                navigation.navigate('Verification')
+        }
+    }
+
 
     console.log('sign')
         return (
@@ -36,28 +72,6 @@ export const SignUp = ({navigation}) => {
                     placeholder="Enter Name *"
                     onChangeText={(n) => setName(n)}
                 />
-                <View style={styles.inputpi}>
-                    <Picker
-                        style={styles.input}
-                        onValueChange={ (value) => {
-                            setOccupation(value)
-                            //console.log(occupation)
-                        }}
-                        itemStyle={{backgroundColor: '#ffe4e1'}}
-                        selectedValue = {occupation}
-
-                    >
-                        <Picker.Item label= 'Select Occupation *' value="disabled" color="#aaa" backgroundColor = '#ffe4e1' />
-                        <Picker.Item label='Engineering & Technology' value='Engineering & Technology' />
-                        <Picker.Item label='Health & Medicine' value='Health & Medicine' />
-                        <Picker.Item label='Business' value='Business' />
-                        <Picker.Item label='Financial Services & Accounts' value='Financial Services & Accounts' />
-                        <Picker.Item label='Teaching' value='Teaching' />
-                        <Picker.Item label='Security & Defence' value='Security & Defence' />
-                        <Picker.Item label='Others' value='Others' />
-                    </Picker>
-
-                </View>
                 <TextInput 
                     style={styles.input}
                     placeholder="Alternate Mobile Number"
@@ -65,27 +79,28 @@ export const SignUp = ({navigation}) => {
                 />
                 <TextInput 
                     style={styles.input}
-                    placeholder="Email Address"
+                    placeholder="Email Address *"
                     onChangeText={(e) => setEmail(e)}
                 />
                 <TextInput 
                     style={styles.input}
-                    placeholder="State of Residence"
+                    placeholder="State of Residence *"
                     onChangeText={(s) => setStates(s)}
                 />
                 <TextInput 
                     style={styles.input}
-                    placeholder="City"
+                    placeholder="City *"
                     onChangeText={(c) => setCity(c)}
                 />
                 <TextInput 
                     style={styles.input}
-                    placeholder="District"
+                    placeholder="District *"
                     onChangeText={(d) => setDistrict(d)}
                 />
                 <TouchableOpacity
                         onPress = {() => {
-                            navigation.navigate('Verification')
+                            handleSubmit()
+                            //navigation.navigate('Verification')
                             
                         }}
                     style={{

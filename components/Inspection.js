@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import {styles} from '../assets/style'
-import { Text, View, Button, ScrollView, TextInput, TouchableOpacity, Alert } from 'react-native'
+import React, { useEffect, useState } from 'react';
+import {styles} from '../assets/style';
+import { Text, View, ScrollView, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { Header } from './header';
 import { Picker} from "react-native";
 import * as ImagePicker from 'expo-image-picker';
@@ -9,13 +9,15 @@ import { vh, vw } from 'react-native-expo-viewport-units';
 import { RNS3 } from 'react-native-aws3';
 import { Config } from './config';
 import { RadioButton } from 'react-native-paper';
-//import {shortUrl} from 'node-url-shortener'
 
-//var shortUrl = require('node-url-shortener');
-
+const s3URLArray = [];
+let j = 0;
+const monthNo=[1,2,3,4,5,6];
+const dir = ['east', 'west', 'north', 'south'];
+const dirPhotu = [];
+let i = 0;
 export const Inspection = ({navigation}) => {
 
-    let s3URLArray = []
 
     const [wallChecked, setWallChecked] = useState('');
     const [parapetCheck, setParapetCheck] = useState('No');
@@ -29,39 +31,39 @@ export const Inspection = ({navigation}) => {
     const [strCheck, setStrCheck] = useState('No');
     const [strValue, setStrValue] = useState('');
 
-    const [name, setName] = React.useState('');
-    const [adres, setAdres] = React.useState('');
-    const [point, setPointS] = React.useState('');
-    const [mobC, setMobC] = React.useState('');
-    const [nAirp, setNAirp] = React.useState('');
-    const [nRail, setNRail] = React.useState('');
-    const [dRail, setDRail] = React.useState('');
-    const [nBus, setNBus] = React.useState('');
-    const [dBus, setDBus] = React.useState('');
-    const [dAirp, setDAirp] = React.useState('');
-    const [heightB, setHeightB] = React.useState('');
-    const [roofAccess, setRoofAccess] = React.useState('');
-    const [delivery, setDelivery] = React.useState('');
-    const [dRoof, setDRoof] = React.useState('');
-    const [dNBuild, setDNBuild] = React.useState('');
-    const [nHeightB, setNHeightB] = React.useState('');
-    const [dcCable, setDcCable] = React.useState('');
-    const [acCable, setAcCable] = React.useState('');
-    const [build, setbuild] = React.useState('');
-    const [roofType, setRoofType] = React.useState('');
-    const [agBuild, setAgBuild] = React.useState('');
-    const [agRoof, setAgRoof] = React.useState('');
-    const [hRoof, setHRoof] = React.useState('');
-    const [BuildingOwnership, setBuildingOwnership] = React.useState('');
-    const [city, setCity] = React.useState('');
-    const [district, setDistrict] = React.useState('');
-    const [states, setStates] = React.useState('');
-    const [mobP, setMobP] = React.useState('');
-    const [emailC, setEmailC] = React.useState('');
-    const [emailP, setEmailP] = React.useState('');
+    const [name, setName] = useState('');
+    const [adres, setAdres] = useState('');
+    const [point, setPointS] = useState('');
+    const [mobC, setMobC] = useState('');
+    const [nAirp, setNAirp] = useState('');
+    const [nRail, setNRail] = useState('');
+    const [dRail, setDRail] = useState('');
+    const [nBus, setNBus] = useState('');
+    const [dBus, setDBus] = useState('');
+    const [dAirp, setDAirp] = useState('');
+    const [heightB, setHeightB] = useState('');
+    const [roofAccess, setRoofAccess] = useState('');
+    const [delivery, setDelivery] = useState('');
+    const [dRoof, setDRoof] = useState('');
+    const [dNBuild, setDNBuild] = useState('');
+    const [nHeightB, setNHeightB] = useState('');
+    const [dcCable, setDcCable] = useState('');
+    const [acCable, setAcCable] = useState('');
+    const [build, setbuild] = useState('');
+    const [roofType, setRoofType] = useState('');
+    const [agBuild, setAgBuild] = useState('');
+    const [agRoof, setAgRoof] = useState('');
+    const [hRoof, setHRoof] = useState('');
+    const [BuildingOwnership, setBuildingOwnership] = useState('');
+    const [city, setCity] = useState('');
+    const [district, setDistrict] = useState('');
+    const [states, setStates] = useState('');
+    const [mobP, setMobP] = useState('');
+    const [emailC, setEmailC] = useState('');
+    const [emailP, setEmailP] = useState('');
     const [show, setShow] = useState('No-show');
     const [s3uri, setS3Uri] = useState('');
-    const [loc, setLoc] = React.useState({
+    const [loc, setLoc] = useState({
         latitude: '',
         longitude: ''
     });
@@ -73,11 +75,21 @@ export const Inspection = ({navigation}) => {
     }
 
     const handleSubmit = () => {
-        var formdata = new FormData();
+        let formdata = new FormData();
             formdata.append("name", name);
             formdata.append("photo", s3uri);
             formdata.append("Latitude", loc.latitude);
             formdata.append("Longitude", loc.longitude);
+            formdata.append("Month1", monthNo[0]);
+            formdata.append("Month2", monthNo[1]);
+            formdata.append("Month3", monthNo[2]);
+            formdata.append("Month4", monthNo[3]);
+            formdata.append("Month5", monthNo[4]);
+            formdata.append("Month6", monthNo[5]);
+            formdata.append("East", dirPhotu[0]);
+            formdata.append("West", dirPhotu[1]);
+            formdata.append("North", dirPhotu[2]);
+            formdata.append("South", dirPhotu[3]);
     
             console.log(formdata);
             
@@ -117,6 +129,8 @@ export const Inspection = ({navigation}) => {
     
     useEffect(() => {
         setCurrentLocation();
+        console.log("useeffect called!!!");
+        console.log("useeffect",s3URLArray)
         }
       , []);
 
@@ -138,21 +152,49 @@ export const Inspection = ({navigation}) => {
                 // if (response.status !== 201)
                 // throw new Error("Failed to upload image to S3 bucket");
                 //console.log("Response s3: ",response.body.postResponse.location);
-                shortUrl.short(response.body.postResponse.location, function(err, url){
-                    console.log(url);
-                    setS3Uri(url)
-                });
-                s3URLArray.push(s3uri)
-                //setS3Uri(response.body.postResponse.location);
-                setShow('blah')
+                setS3Uri(response.body.postResponse.location);
                 console.log(s3uri);
-                console.log(s3URLArray)
             })
-
+            if(s3uri.length > 0){
+                j++;
+                s3URLArray.push(s3uri)
+                console.log(s3URLArray)
+            }else{
+                Alert.alert('Image not uploaded','Please try again')
+            }
         }
     }
 
-    console.log('Insp')
+    const onChooseImagePressDir = async () =>{
+        let result = await ImagePicker.launchCameraAsync();
+        console.log(result.cancelled)
+        if(result.cancelled=== true){
+            Alert.alert('No Image','You did not select any image')
+        }
+        else{
+            //let result = await ImagePicker.launchImageLibraryAsync();
+            console.log(result.uri)
+            file.uri = result.uri;
+            file.name = `sunkonnect/${new Date(Date.now()).toISOString()}.jpg`;
+            file.type = 'image/jpg';
+            //console.log(file);
+            RNS3.put(file, Config).then(response => {
+                // if (response.status !== 201)
+                // throw new Error("Failed to upload image to S3 bucket");
+                //console.log("Response s3: ",response.body.postResponse.location);
+                setS3Uri(response.body.postResponse.location);
+                console.log(s3uri);
+            })
+            if(s3uri.length>0){
+                i++;
+                dirPhotu.push(s3uri)
+                console.log(dirPhotu)
+            }else{
+                Alert.alert('Image not uploaded','Please try again')
+            }
+        }
+    }
+
         return (
             <View style={styles.container}>
             <Header headerName={'Inspection'} navigation={navigation}/>
@@ -660,12 +702,36 @@ export const Inspection = ({navigation}) => {
                         style={styles.input}
                         placeholder='Enter connected voltages'
                     />
-            {
-                    show === 'No-show' ?
-                <TouchableOpacity
-                    onPress = {() => {
-                            onChooseImagePress()
+                {
+                    j < 6 ?
+                    <TouchableOpacity
+                        onPress = {() => {
+                                onChooseImagePress()
+                            }}
+                        style={{
+                            backgroundColor: '#fff',
+                            borderRadius: 50,
+                            width: vw(89),
+                            marginLeft: 20,
+                            marginTop: 20,
+                            padding: 15,
+                            marginBottom: 18,
+                            alignItems: 'center',
+                            justifyContent: 'center',
                         }}
+                    >
+                        <Text 
+                            style={{
+                                fontWeight: 'bold',
+                                color: '#FDA162',
+                            }} 
+                           
+                        >
+                            Upload Electricity Bill Image of month {monthNo[j]}
+                        </Text>
+                    </TouchableOpacity>
+                    :
+                    <View
                     style={{
                         backgroundColor: '#fff',
                         borderRadius: 50,
@@ -676,22 +742,70 @@ export const Inspection = ({navigation}) => {
                         marginBottom: 18,
                         alignItems: 'center',
                         justifyContent: 'center',
-                    }}
-                >
-                    <Text 
-                        style={{
-                            fontWeight: 'bold',
-                            color: '#FDA162',
-                        }} 
-                       
+                    }}   
                     >
-                        Upload Electricity Bill Image
-                    </Text>
-                </TouchableOpacity>
-                :
-                null
-                
-    }
+                        <Text
+                            style={{
+                                fontWeight: 'bold',
+                                color: '#FDA162',
+                            }} 
+                        >
+                            Thanks for uploading photos
+                        </Text>
+                    </View>
+                }
+                {
+                    i < 4 ?
+                    <TouchableOpacity
+                        onPress = {() => {
+                                onChooseImagePressDir()
+                            }}
+                        style={{
+                            backgroundColor: '#fff',
+                            borderRadius: 50,
+                            width: vw(89),
+                            marginLeft: 20,
+                            marginTop: 20,
+                            padding: 15,
+                            marginBottom: 18,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <Text 
+                            style={{
+                                fontWeight: 'bold',
+                                color: '#FDA162',
+                            }} 
+                        
+                        >
+                            Upload photu of direction {dir[i]}
+                        </Text>
+                    </TouchableOpacity>
+                    :
+                    <View
+                    style={{
+                        backgroundColor: '#fff',
+                        borderRadius: 50,
+                        width: vw(89),
+                        marginLeft: 20,
+                        marginTop: 20,
+                        padding: 15,
+                        marginBottom: 18,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}   
+                    >
+                        <Text
+                            style={{
+                                fontWeight: 'bold',
+                                color: '#FDA162',
+                            }} 
+                        >
+                            Thanks for uploading photos
+                        </Text>
+                    </View>
+                }
             <TouchableOpacity
                         onPress = {() => {
                             handleSubmit()

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {styles} from '../assets/style'
-import { Text, View, Button, ScrollView, TextInput, TouchableOpacity } from 'react-native'
+import { Text, View, Button, ScrollView, TextInput, TouchableOpacity, Alert } from 'react-native'
 import { Header } from './header';
 import { Picker} from "react-native";
 import * as ImagePicker from 'expo-image-picker';
@@ -8,9 +8,17 @@ import * as Location from 'expo-location';
 import { vh, vw } from 'react-native-expo-viewport-units';
 import { RNS3 } from 'react-native-aws3';
 import { Config } from './config';
+import { RadioButton } from 'react-native-paper';
 
 export const Inspection = ({navigation}) => {
 
+    const [wallChecked, setWallChecked] = useState('');
+    const [parapetCheck, setParapetCheck] = useState('No');
+    const [parapetValue, setParapetValue] = useState('');
+
+    const [highChecked, setHighChecked] = useState('');
+    const [heightCheck, setHeightCheck] = useState('No');
+    const [heightValue, setHeightValue] = useState('');
 
     const [name, setName] = React.useState('');
     const [adres, setAdres] = React.useState('');
@@ -379,7 +387,6 @@ export const Inspection = ({navigation}) => {
                     show === 'No-show' ?
                 <TouchableOpacity
                     onPress = {() => {
-                            
                             onChooseImagePress()
                         }}
                     style={{
@@ -430,11 +437,182 @@ export const Inspection = ({navigation}) => {
                     </TouchableOpacity>
 
                 </View>
-                }
-                <TouchableOpacity
+    }
+                {/* Parapet Check */}
+                <View
+                    style={styles.inputpi}
+                >
+                    <Text
+                        style={{
+                            fontWeight: 'bold',
+                            color: '#FDA162',
+                            padding: 10,
+                            marginLeft: 20,
+                            marginTop: 20,
+                            fontSize: 15,
+                        }} 
+                    >
+                        Parapet wall (safety wall) on roof
+                    </Text>
+                    <TouchableOpacity 
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <RadioButton 
+                            value="Yes"
+                            status={ wallChecked === 'Yes' ? 'checked' : 'unchecked' }
+                            onPress={() => {
+                                setWallChecked('Yes')
+                                setParapetCheck('Yes')
+                            }}
+                        />
+                        <Text style={{
+                            color: '#000',
+                        }}>
+                            Yes
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                        }}
+                    >
+                        <RadioButton 
+                            value="No"
+                            status={ wallChecked === 'no' ? 'checked' : 'unchecked' }
+                            onPress={() => {
+                                setWallChecked('no')
+                                setParapetCheck('No')
+                            }}
+                        />
+                        <Text style={{
+                            color: '#000',
+                            marginTop: 8,
+                        }}>
+                            No
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+                    {
+                        parapetCheck === 'Yes' ? 
+                        <TextInput 
+                            style={styles.input} 
+                            placeholder='Enter parapet walls height in metres'
+                            onChangeText={(text) => setParapetHeight(text)}
+                        />
+                        :
+                        null
+                    }
+                {/* Major equipment */}
+                <View
+                    style={styles.inputpi}
+                >
+                    <Text
+                        style={{
+                            fontWeight: 'bold',
+                            color: '#FDA162',
+                            padding: 10,
+                            marginLeft: 20,
+                            marginTop: 20,
+                            fontSize: 15,
+                        }} 
+                    >
+                        Any high rise building near site ?
+                    </Text>
+                    <TouchableOpacity 
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <RadioButton 
+                            value="Yes"
+                            status={ highChecked === 'Yes' ? 'checked' : 'unchecked' }
+                            onPress={() => {
+                                setHighChecked('Yes')
+                                setHeightCheck('Yes')
+                            }}
+                        />
+                        <Text style={{
+                            color: '#000',
+                        }}>
+                            Yes
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                        }}
+                    >
+                        <RadioButton 
+                            value="No"
+                            status={ highChecked === 'no' ? 'checked' : 'unchecked' }
+                            onPress={() => {
+                                setHighChecked('no')
+                                setHeightCheck('No')
+                            }}
+                        />
+                        <Text style={{
+                            color: '#000',
+                            marginTop: 8,
+                        }}>
+                            No
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+                    {
+                        heightCheck === 'Yes' ? 
+                        <TextInput 
+                            style={styles.input} 
+                            placeholder='Enter distance and height'
+                            onChangeText={(text) => setHeightValue(text)}
+                        />
+                        :
+                        null
+                    }
+                <View
+                    style={styles.inputpi}
+                >
+                    <Text
+                        style={{
+                            fontWeight: 'bold',
+                            padding: 10,
+                        }}
+                    >
+                        Number of electricity connections of site (1,2,3….)
+                    </Text>
+                    <Text
+                        style={{
+                            fontWeight: 'bold',
+                            color: '#FDA162',
+                            padding: 10,
+                        }}
+                        >
+                        If connections > 1, enter load and voltage of each connection separated by comma(,)
+                    </Text>
+                </View>
+                    <TextInput
+                        style={styles.input}
+                        placeholder='Enter number of connections'
+                     />
+                    <TextInput
+                        style={styles.input}
+                        placeholder='Enter sanctioned load of connection'
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder='Enter connected voltage'
+                    />
+            </ScrollView>
+            <TouchableOpacity
                         onPress = {() => {
                             handleSubmit()
-                            
                         }}
                     style={{
                         backgroundColor: '#fff',
@@ -459,7 +637,6 @@ export const Inspection = ({navigation}) => {
                         Select Proposal
                     </Text>
                 </TouchableOpacity>
-            </ScrollView>
             </View>
         )
 }

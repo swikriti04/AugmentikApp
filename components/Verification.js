@@ -141,8 +141,10 @@ export const Verification = ({navigation}) => {
                                 borderRadius: 70
                         }}
                             onPress={async () =>{
-                            console.log(phoneNo);
-                            phoneNo.length === 13 ? sendVerification() : Alert.alert('Invalid Phone Number', 'Please enter a valid phone number', [{text: 'OK'}])
+                            navigation.navigate('Inspection');
+
+                            // console.log(phoneNo);
+                            // phoneNo.length === 13 ? sendVerification() : Alert.alert('Invalid Phone Number', 'Please enter a valid phone number', [{text: 'OK'}])
                         }}
                         >
                             <Text style={{

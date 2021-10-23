@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {styles} from '../assets/style'
-import { Text, View, Button, ScrollView, TextInput, TouchableOpacity} from 'react-native'
+import { Text, View, Button, ScrollView, TextInput, TouchableOpacity, Alert} from 'react-native'
 import { Picker} from "react-native";
 import { Header } from './header';
 
@@ -99,8 +99,8 @@ export const SignUp = ({navigation, route}) => {
                 />
                 <TouchableOpacity
                         onPress = {() => {
-                            handleSubmit()
-                            //navigation.navigate('Verification')
+                            //handleSubmit()
+                            navigation.navigate('Site')
                             
                         }}
                     style={{

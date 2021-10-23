@@ -23,6 +23,8 @@ export const Inspection = ({navigation}) => {
     const [dBus, setDBus] = React.useState('');
     const [dAirp, setDAirp] = React.useState('');
     const [heightB, setHeightB] = React.useState('');
+    const [roofAccess, setRoofAccess] = React.useState('');
+    const [delivery, setDelivery] = React.useState('');
     const [dRoof, setDRoof] = React.useState('');
     const [dNBuild, setDNBuild] = React.useState('');
     const [nHeightB, setNHeightB] = React.useState('');
@@ -333,6 +335,44 @@ export const Inspection = ({navigation}) => {
                         <Picker.Item label='Others' value='Others' />
                     </Picker>
 
+                </View>
+                <View style={styles.inputpi}>
+
+                    <Picker
+                        style={styles.input}
+                        onValueChange={ (value) => {
+                            setRoofAccess(value)
+                            //console.log(BuildingOwnership)
+                        }}
+                        selectedValue = {roofAccess}
+
+                    >
+                        <Picker.Item label= 'Roof Access For Man' value="disabled" color="#aaa" />
+                        <Picker.Item label='Permanent Stairs' value='Permanent Stair' />
+                        <Picker.Item label='Temporary Stairs' value='Temporary Stairs' />
+                        <Picker.Item label='ladder' value='ladder' />
+                        <Picker.Item label='Others' value='Others' />
+
+                    </Picker>
+                </View>
+                <View style={styles.inputpi}>
+
+                    <Picker
+                        style={styles.input}
+                        onValueChange={ (value) => {
+                            setDelivery(value)
+                            //console.log(BuildingOwnership)
+                        }}
+                        selectedValue = {delivery}
+
+                    >
+                        <Picker.Item label= 'Proposed Method of Material delivery on Roof' value="disabled" color="#aaa" />
+                        <Picker.Item label='Lift' value='Lift' />
+                        <Picker.Item label='Crane' value='Crane' />
+                        <Picker.Item label='Stairs' value='Stairs' />
+                        <Picker.Item label='Others' value='Others' />
+
+                    </Picker>
                 </View>
 
                 {

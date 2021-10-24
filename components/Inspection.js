@@ -127,7 +127,7 @@ export const Inspection = ({navigation}) => {
             formdata.append("POC Mobile No.", mobP);
             formdata.append("Client's Email", emailC);
             formdata.append("POC's Email", emailP);
-            formdata.append("No. of Connection", connect);
+            formdata.append("No. of Connections", connect);
             formdata.append("Connection Load", load);
             formdata.append("Connection Voltage", voltage);
             formdata.append("Building Ownership", BuildingOwnership);
@@ -1024,19 +1024,19 @@ export const Inspection = ({navigation}) => {
                             borderRadius: 20,
                         }}
                         placeholder='Enter number of connections'
-                        onChangeText={(ll)=> {setConnect}}
+                        onChangeText={(ll)=> setConnect(ll)}
                      />
                 </View>
                     
                     <TextInput
                         style={styles.input}
                         placeholder='Enter sanctioned load of connections'
-                        onChangeText={(la)=> {setLoad}}
+                        onChangeText={(la)=> setLoad(la)}
                     />
                     <TextInput
                         style={styles.input}
                         placeholder='Enter connected voltages'
-                        onChangeText={(lb)=> {setVoltage}}
+                        onChangeText={(lb)=> setVoltage(lb)}
                     />
                     <Text style={{
                         justifyContent: 'center',

@@ -52,6 +52,8 @@ export const Inspection = ({navigation}) => {
     const [strValue, setStrValue] = useState('');
 
     const [name, setName] = useState('');
+    const [comment, setComment] = useState('');
+    //const [otherImage, setOtherImage] = useState('');
     const [adres, setAdres] = useState('');
     const [point, setPointS] = useState('');
     const [mobC, setMobC] = useState('');
@@ -82,7 +84,28 @@ export const Inspection = ({navigation}) => {
     const [emailC, setEmailC] = useState('');
     const [emailP, setEmailP] = useState('');
     const [show, setShow] = useState('No-show');
-    const [s3uri, setS3Uri] = useState('');
+    const [showM6, setShowM6] = useState('No-show');
+    const [showM5, setShowM5] = useState('No-show');
+    const [showM4, setShowM4] = useState('No-show');
+    const [showM1, setShowM1] = useState('No-show');
+    const [showM3, setShowM3] = useState('No-show');
+    const [showM2, setShowM2] = useState('No-show');
+    const [s3UriM1, setS3UriM1] = useState('');
+    const [s3UriM2, setS3UriM2] = useState('');
+    const [s3UriM3, setS3UriM3] = useState('');
+    const [s3UriM4, setS3UriM4] = useState('');
+    const [s3UriM5, setS3UriM5] = useState('');
+    const [s3UriM6, setS3UriM6] = useState('');
+    const [s3UriD1, setS3UriD1] = useState('');
+    const [s3UriD2, setS3UriD2] = useState('');
+    const [s3UriD3, setS3UriD3] = useState('');
+    const [s3UriD4, setS3UriD4] = useState('');
+    const [s3UriOI, setS3UriOI] = useState('');
+    const [showD4, setShowD4] = useState('No-show');
+    const [showD1, setShowD1] = useState('No-show');
+    const [showD3, setShowD3] = useState('No-show');
+    const [showD2, setShowD2] = useState('No-show');
+
     const [loc, setLoc] = useState({
         latitude: '',
         longitude: ''
@@ -121,6 +144,8 @@ export const Inspection = ({navigation}) => {
             formdata.append("HighRise Height & Distance", heightValue);
             formdata.append("Any Equipment on Roof", strCheck);
             formdata.append("Dimensions of Equipment", strValue);
+            formdata.append("Other Comments", comment);
+            formdata.append("Other Image", s3UriOI);
             formdata.append("City", city);
             formdata.append("District", district);
             formdata.append("State", states);
@@ -144,16 +169,16 @@ export const Inspection = ({navigation}) => {
             //formdata.append("photo", s3uri);
             formdata.append("Latitude", loc.latitude);
             formdata.append("Longitude", loc.longitude);
-            formdata.append("Month1", s3URLArray[0]);
-            formdata.append("Month2", s3URLArray[1]);
-            formdata.append("Month3", s3URLArray[2]);
-            formdata.append("Month4", s3URLArray[3]);
-            formdata.append("Month5", s3URLArray[4]);
-            formdata.append("Month6", s3URLArray[5]);
-            formdata.append("East", dirPhotu[0]);
-            formdata.append("West", dirPhotu[1]);
-            formdata.append("North", dirPhotu[2]);
-            formdata.append("South", dirPhotu[3]);
+            formdata.append("Month1", s3UriM1);
+            formdata.append("Month2", s3UriM2);
+            formdata.append("Month3", s3UriM3);
+            formdata.append("Month4", s3UriM4);
+            formdata.append("Month5", s3UriM5);
+            formdata.append("Month6", s3UriM6);
+            formdata.append("East", s3UriD1);
+            formdata.append("West", s3UriD2);
+            formdata.append("North", s3UriD3);
+            formdata.append("South", s3UriD4);
     
             console.log(formdata);
             
@@ -198,8 +223,7 @@ export const Inspection = ({navigation}) => {
         }
       , []);
 
-
-    const onChooseImagePress = async () =>{
+    const onChooseImagePressM1 = async () =>{
         let result = await ImagePicker.launchCameraAsync();
         console.log(result.cancelled)
         if(result.cancelled=== true){
@@ -207,7 +231,7 @@ export const Inspection = ({navigation}) => {
         }
         else{
             //let result = await ImagePicker.launchImageLibraryAsync();
-            console.log(result.uri)
+            //console.log(result.uri)
             file.uri = result.uri;
             file.name = `sunkonnect/${new Date(Date.now()).toISOString()}.jpg`;
             file.type = 'image/jpg';
@@ -216,20 +240,16 @@ export const Inspection = ({navigation}) => {
                 // if (response.status !== 201)
                 // throw new Error("Failed to upload image to S3 bucket");
                 //console.log("Response s3: ",response.body.postResponse.location);
-                setS3Uri(response.body.postResponse.location);
-                console.log(s3uri);
+                setS3UriM1(response.body.postResponse.location);
+                setShowM1('blah')
+                //console.log(s3uri);
+                Alert.alert('Image', 'Image Uploaded Successfully')
             })
-            if(s3uri.length > 0){
-                j++;
-                s3URLArray.push(s3uri)
-                console.log(s3URLArray)
-            }else{
-                Alert.alert('Image not uploaded','Please try again')
-            }
+
         }
     }
 
-    const onChooseImagePressDir = async () =>{
+    const onChooseImagePressM2 = async () =>{
         let result = await ImagePicker.launchCameraAsync();
         console.log(result.cancelled)
         if(result.cancelled=== true){
@@ -237,7 +257,7 @@ export const Inspection = ({navigation}) => {
         }
         else{
             //let result = await ImagePicker.launchImageLibraryAsync();
-            console.log(result.uri)
+            //console.log(result.uri)
             file.uri = result.uri;
             file.name = `sunkonnect/${new Date(Date.now()).toISOString()}.jpg`;
             file.type = 'image/jpg';
@@ -246,18 +266,306 @@ export const Inspection = ({navigation}) => {
                 // if (response.status !== 201)
                 // throw new Error("Failed to upload image to S3 bucket");
                 //console.log("Response s3: ",response.body.postResponse.location);
-                setS3Uri(response.body.postResponse.location);
-                console.log(s3uri);
+                setS3UriM2(response.body.postResponse.location);
+                setShowM2('blah')
+                //console.log(s3uri);
+                Alert.alert('Image', 'Image Uploaded Successfully')
             })
-            if(s3uri.length>0){
-                i++;
-                dirPhotu.push(s3uri)
-                console.log(dirPhotu)
-            }else{
-                Alert.alert('Image not uploaded','Please try again')
-            }
+
         }
     }
+
+    const onChooseImagePressM3 = async () =>{
+        let result = await ImagePicker.launchCameraAsync();
+        console.log(result.cancelled)
+        if(result.cancelled=== true){
+            Alert.alert('No Image','You did not select any image')
+        }
+        else{
+            //let result = await ImagePicker.launchImageLibraryAsync();
+            //console.log(result.uri)
+            file.uri = result.uri;
+            file.name = `sunkonnect/${new Date(Date.now()).toISOString()}.jpg`;
+            file.type = 'image/jpg';
+            //console.log(file);
+            RNS3.put(file, Config).then(response => {
+                // if (response.status !== 201)
+                // throw new Error("Failed to upload image to S3 bucket");
+                //console.log("Response s3: ",response.body.postResponse.location);
+                setS3UriM3(response.body.postResponse.location);
+                setShowM3('blah')
+                //console.log(s3uri);
+                Alert.alert('Image', 'Image Uploaded Successfully')
+            })
+
+        }
+    }
+
+    const onChooseImagePressM4 = async () =>{
+        let result = await ImagePicker.launchCameraAsync();
+        console.log(result.cancelled)
+        if(result.cancelled=== true){
+            Alert.alert('No Image','You did not select any image')
+        }
+        else{
+            //let result = await ImagePicker.launchImageLibraryAsync();
+            //console.log(result.uri)
+            file.uri = result.uri;
+            file.name = `sunkonnect/${new Date(Date.now()).toISOString()}.jpg`;
+            file.type = 'image/jpg';
+            //console.log(file);
+            RNS3.put(file, Config).then(response => {
+                // if (response.status !== 201)
+                // throw new Error("Failed to upload image to S3 bucket");
+                //console.log("Response s3: ",response.body.postResponse.location);
+                setS3UriM4(response.body.postResponse.location);
+                setShowM4('blah')
+                //console.log(s3uri);
+                Alert.alert('Image', 'Image Uploaded Successfully')
+            })
+
+        }
+    }
+
+    const onChooseImagePressM5 = async () =>{
+        let result = await ImagePicker.launchCameraAsync();
+        console.log(result.cancelled)
+        if(result.cancelled=== true){
+            Alert.alert('No Image','You did not select any image')
+        }
+        else{
+            //let result = await ImagePicker.launchImageLibraryAsync();
+            //console.log(result.uri)
+            file.uri = result.uri;
+            file.name = `sunkonnect/${new Date(Date.now()).toISOString()}.jpg`;
+            file.type = 'image/jpg';
+            //console.log(file);
+            RNS3.put(file, Config).then(response => {
+                // if (response.status !== 201)
+                // throw new Error("Failed to upload image to S3 bucket");
+                //console.log("Response s3: ",response.body.postResponse.location);
+                setS3UriM5(response.body.postResponse.location);
+                setShowM5('blah')
+                //console.log(s3uri);
+                Alert.alert('Image', 'Image Uploaded Successfully')
+            })
+
+        }
+    }
+
+    const onChooseImagePressM6 = async () =>{
+        let result = await ImagePicker.launchCameraAsync();
+        console.log(result.cancelled)
+        if(result.cancelled=== true){
+            Alert.alert('No Image','You did not select any image')
+        }
+        else{
+            //let result = await ImagePicker.launchImageLibraryAsync();
+            //console.log(result.uri)
+            file.uri = result.uri;
+            file.name = `sunkonnect/${new Date(Date.now()).toISOString()}.jpg`;
+            file.type = 'image/jpg';
+            //console.log(file);
+            RNS3.put(file, Config).then(response => {
+                // if (response.status !== 201)
+                // throw new Error("Failed to upload image to S3 bucket");
+                //console.log("Response s3: ",response.body.postResponse.location);
+                setS3UriM6(response.body.postResponse.location);
+                setShowM6('blah')
+                //console.log(s3uri);
+                Alert.alert('Image', 'Image Uploaded Successfully')
+            })
+
+        }
+    }
+
+    const onChooseImagePressD1 = async () =>{
+        let result = await ImagePicker.launchCameraAsync();
+        console.log(result.cancelled)
+        if(result.cancelled=== true){
+            Alert.alert('No Image','You did not select any image')
+        }
+        else{
+            //let result = await ImagePicker.launchImageLibraryAsync();
+            //console.log(result.uri)
+            file.uri = result.uri;
+            file.name = `sunkonnect/${new Date(Date.now()).toISOString()}.jpg`;
+            file.type = 'image/jpg';
+            //console.log(file);
+            RNS3.put(file, Config).then(response => {
+                // if (response.status !== 201)
+                // throw new Error("Failed to upload image to S3 bucket");
+                //console.log("Response s3: ",response.body.postResponse.location);
+                setS3UriD1(response.body.postResponse.location);
+                setShowD1('blah')
+                //console.log(s3uri);
+                Alert.alert('Image', 'Image Uploaded Successfully')
+            })
+
+        }
+    }
+
+    const onChooseImagePressD2 = async () =>{
+        let result = await ImagePicker.launchCameraAsync();
+        console.log(result.cancelled)
+        if(result.cancelled=== true){
+            Alert.alert('No Image','You did not select any image')
+        }
+        else{
+            //let result = await ImagePicker.launchImageLibraryAsync();
+            //console.log(result.uri)
+            file.uri = result.uri;
+            file.name = `sunkonnect/${new Date(Date.now()).toISOString()}.jpg`;
+            file.type = 'image/jpg';
+            //console.log(file);
+            RNS3.put(file, Config).then(response => {
+                // if (response.status !== 201)
+                // throw new Error("Failed to upload image to S3 bucket");
+                //console.log("Response s3: ",response.body.postResponse.location);
+                setS3UriD2(response.body.postResponse.location);
+                setShowD2('blah')
+                //console.log(s3uri);
+                Alert.alert('Image', 'Image Uploaded Successfully')
+            })
+
+        }
+    }
+    const onChooseImagePressD3 = async () =>{
+        let result = await ImagePicker.launchCameraAsync();
+        console.log(result.cancelled)
+        if(result.cancelled=== true){
+            Alert.alert('No Image','You did not select any image')
+        }
+        else{
+            //let result = await ImagePicker.launchImageLibraryAsync();
+            //console.log(result.uri)
+            file.uri = result.uri;
+            file.name = `sunkonnect/${new Date(Date.now()).toISOString()}.jpg`;
+            file.type = 'image/jpg';
+            //console.log(file);
+            RNS3.put(file, Config).then(response => {
+                // if (response.status !== 201)
+                // throw new Error("Failed to upload image to S3 bucket");
+                //console.log("Response s3: ",response.body.postResponse.location);
+                setS3UriD3(response.body.postResponse.location);
+                setShowD3('blah')
+                //console.log(s3uri);
+                Alert.alert('Image', 'Image Uploaded Successfully')
+            })
+
+        }
+    }
+    const onChooseImagePressD4 = async () =>{
+        let result = await ImagePicker.launchCameraAsync();
+        console.log(result.cancelled)
+        if(result.cancelled=== true){
+            Alert.alert('No Image','You did not select any image')
+        }
+        else{
+            //let result = await ImagePicker.launchImageLibraryAsync();
+            //console.log(result.uri)
+            file.uri = result.uri;
+            file.name = `sunkonnect/${new Date(Date.now()).toISOString()}.jpg`;
+            file.type = 'image/jpg';
+            //console.log(file);
+            RNS3.put(file, Config).then(response => {
+                // if (response.status !== 201)
+                // throw new Error("Failed to upload image to S3 bucket");
+                //console.log("Response s3: ",response.body.postResponse.location);
+                setS3UriD4(response.body.postResponse.location);
+                setShowD4('blah')
+                //console.log(s3uri);
+                Alert.alert('Image', 'Image Uploaded Successfully')
+            })
+
+        }
+    }
+
+    const onChooseImagePressOI = async () =>{
+        let result = await ImagePicker.launchCameraAsync();
+        console.log(result.cancelled)
+        if(result.cancelled=== true){
+            Alert.alert('No Image','You did not select any image')
+        }
+        else{
+            //let result = await ImagePicker.launchImageLibraryAsync();
+            //console.log(result.uri)
+            file.uri = result.uri;
+            file.name = `sunkonnect/${new Date(Date.now()).toISOString()}.jpg`;
+            file.type = 'image/jpg';
+            //console.log(file);
+            RNS3.put(file, Config).then(response => {
+                // if (response.status !== 201)
+                // throw new Error("Failed to upload image to S3 bucket");
+                //console.log("Response s3: ",response.body.postResponse.location);
+                setS3UriOI(response.body.postResponse.location);
+                setShow('blah')
+                //console.log(s3uri);
+                Alert.alert('Image', 'Image Uploaded Successfully')
+            })
+
+        }
+    }
+
+    // const onChooseImagePress = async () =>{
+    //     let result = await ImagePicker.launchCameraAsync();
+    //     console.log(result.cancelled)
+    //     if(result.cancelled=== true){
+    //         Alert.alert('No Image','You did not select any image')
+    //     }
+    //     else{
+    //         //let result = await ImagePicker.launchImageLibraryAsync();
+    //         console.log(result.uri)
+    //         file.uri = result.uri;
+    //         file.name = `sunkonnect/${new Date(Date.now()).toISOString()}.jpg`;
+    //         file.type = 'image/jpg';
+    //         //console.log(file);
+    //         RNS3.put(file, Config).then(response => {
+    //             // if (response.status !== 201)
+    //             // throw new Error("Failed to upload image to S3 bucket");
+    //             //console.log("Response s3: ",response.body.postResponse.location);
+    //             setS3Uri(response.body.postResponse.location);
+    //             console.log(s3uri);
+    //         })
+    //         if(s3uri.length > 0){
+    //             j++;
+    //             s3URLArray.push(s3uri)
+    //             console.log(s3URLArray)
+    //         }else{
+    //             Alert.alert('Image not uploaded','Please try again')
+    //         }
+    //     }
+    // }
+
+    // const onChooseImagePressDir = async () =>{
+    //     let result = await ImagePicker.launchCameraAsync();
+    //     console.log(result.cancelled)
+    //     if(result.cancelled=== true){
+    //         Alert.alert('No Image','You did not select any image')
+    //     }
+    //     else{
+    //         //let result = await ImagePicker.launchImageLibraryAsync();
+    //         console.log(result.uri)
+    //         file.uri = result.uri;
+    //         file.name = `sunkonnect/${new Date(Date.now()).toISOString()}.jpg`;
+    //         file.type = 'image/jpg';
+    //         //console.log(file);
+    //         RNS3.put(file, Config).then(response => {
+    //             // if (response.status !== 201)
+    //             // throw new Error("Failed to upload image to S3 bucket");
+    //             //console.log("Response s3: ",response.body.postResponse.location);
+    //             setS3Uri(response.body.postResponse.location);
+    //             console.log(s3uri);
+    //         })
+    //         if(s3uri.length>0){
+    //             i++;
+    //             dirPhotu.push(s3uri)
+    //             console.log(dirPhotu)
+    //         }else{
+    //             Alert.alert('Image not uploaded','Please try again')
+    //         }
+    //     }
+    // }
 
         return (
             <View style={styles.container}>
@@ -350,36 +658,7 @@ export const Inspection = ({navigation}) => {
                     placeholder="Nearby Building Distance from Site"
                     onChangeText={(m) => setDNBuild(m)}
                 />
-                <TextInput 
-                    style={styles.input}
-                    placeholder="Name of Nearest Airport"
-                    onChangeText={(o) => setNAirp(o)}
-                />
-                <TextInput 
-                    style={styles.input}
-                    placeholder="Distance Nearest Airport"
-                    onChangeText={(p) => setDAirp(p)}
-                />
-                <TextInput 
-                    style={styles.input}
-                    placeholder="Name of Nearest Bus Terminus"
-                    onChangeText={(r) => setNBus(r)}
-                />
-                <TextInput 
-                    style={styles.input}
-                    placeholder="Distance of Nearest Bus Terminus"
-                    onChangeText={(s) => setDBus(s)}
-                />
-                <TextInput 
-                    style={styles.input}
-                    placeholder="Name of Nearest Railway Station"
-                    onChangeText={(t) => setNRail(t)}
-                />
-                <TextInput 
-                    style={styles.input}
-                    placeholder="Distance of Nearest Railway Station"
-                    onChangeText={(u) => setDRail(u)}
-                />
+                
                 <TextInput 
                     style={styles.input}
                     placeholder="Age of Building"
@@ -495,7 +774,7 @@ export const Inspection = ({navigation}) => {
                         selectedValue = {delivery}
 
                     >
-                        <Picker.Item label= 'Proposed Method of Material delivery on Roof' value="disabled" color="#aaa" />
+                        <Picker.Item label= 'Method of Material delivery on Roof' value="disabled" color="#aaa" />
                         <Picker.Item label='Lift' value='Lift' />
                         <Picker.Item label='Crane' value='Crane' />
                         <Picker.Item label='Stairs' value='Stairs' />
@@ -503,6 +782,36 @@ export const Inspection = ({navigation}) => {
 
                     </Picker>
                 </View>
+                <TextInput 
+                    style={styles.input}
+                    placeholder="Name of Nearest Airport"
+                    onChangeText={(o) => setNAirp(o)}
+                />
+                <TextInput 
+                    style={styles.input}
+                    placeholder="Distance Nearest Airport"
+                    onChangeText={(p) => setDAirp(p)}
+                />
+                <TextInput 
+                    style={styles.input}
+                    placeholder="Name of Nearest Bus Terminus"
+                    onChangeText={(r) => setNBus(r)}
+                />
+                <TextInput 
+                    style={styles.input}
+                    placeholder="Distance of Nearest Bus Terminus"
+                    onChangeText={(s) => setDBus(s)}
+                />
+                <TextInput 
+                    style={styles.input}
+                    placeholder="Name of Nearest Railway Station"
+                    onChangeText={(t) => setNRail(t)}
+                />
+                <TextInput 
+                    style={styles.input}
+                    placeholder="Distance of Nearest Railway Station"
+                    onChangeText={(u) => setDRail(u)}
+                />
 
                 
                 {/* Parapet Check */}
@@ -1038,12 +1347,18 @@ export const Inspection = ({navigation}) => {
                         placeholder='Enter connected voltages'
                         onChangeText={(lb)=> setVoltage(lb)}
                     />
+                    <TextInput
+                        style={styles.input}
+                        placeholder='Any Other Comments'
+                        onChangeText={(cc)=> setComment(cc)}
+                    />
                     <Text style={{
                         justifyContent: 'center',
                         alignItems: 'center',
-                        marginLeft: 58,
+                        marginLeft: 60,
+                        fontWeight: 'bold',
                     }}>Upload Electricity Bill of Past Six Months</Text>
-                {
+                {/* {
                     j < 6 ?
                     <TouchableOpacity
                         onPress = {() => {
@@ -1094,13 +1409,9 @@ export const Inspection = ({navigation}) => {
                             Thanks for uploading photos
                         </Text>
                     </View>
-                }
-                <Text style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginLeft: 38,
-                }}>Upload Site Image of Directions Mentioned Below</Text>
-                {
+                } */}
+                
+                {/* {
                     i < 4 ?
                     <TouchableOpacity
                         onPress = {() => {
@@ -1151,6 +1462,630 @@ export const Inspection = ({navigation}) => {
                             Thanks for uploading photos
                         </Text>
                     </View>
+                } */}
+                {
+                    showM1 === 'No-show' ?
+                <TouchableOpacity
+                    onPress = {() => {
+                            
+                            onChooseImagePressM1()
+                        }}
+                    style={{
+                        backgroundColor: '#fff',
+                        borderRadius: 50,
+                        width: vw(89),
+                        marginLeft: 20,
+                        marginTop: 20,
+                        padding: 15,
+                        marginBottom: 18,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                >
+                    <Text 
+                        style={{
+                            fontWeight: 'bold',
+                            color: '#FDA162',
+                        }} 
+                       
+                    >
+                        Upload Electricity Bill Of Month 1
+                    </Text>
+                </TouchableOpacity>
+                :
+                <View>
+                    <TouchableOpacity
+                        style={{
+                            backgroundColor: '#fff',
+                            borderRadius: 50,
+                            width: vw(89),
+                            marginLeft: 20,
+                            marginTop: 20,
+                            padding: 15,
+                            marginBottom: 18,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <Text 
+                            style={{
+                                fontWeight: 'bold',
+                                color: '#FDA162',
+                            }} 
+                        >
+                            Uploaded
+                        </Text>
+                    </TouchableOpacity>
+
+                </View>
+                }
+
+                {
+                    showM2 === 'No-show' ?
+                <TouchableOpacity
+                    onPress = {() => {
+                            
+                            onChooseImagePressM2()
+                        }}
+                    style={{
+                        backgroundColor: '#fff',
+                        borderRadius: 50,
+                        width: vw(89),
+                        marginLeft: 20,
+                        marginTop: 20,
+                        padding: 15,
+                        marginBottom: 18,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                >
+                    <Text 
+                        style={{
+                            fontWeight: 'bold',
+                            color: '#FDA162',
+                        }} 
+                       
+                    >
+                        Upload Electricity Bill Of Month 2
+                    </Text>
+                </TouchableOpacity>
+                :
+                <View>
+                    <TouchableOpacity
+                        style={{
+                            backgroundColor: '#fff',
+                            borderRadius: 50,
+                            width: vw(89),
+                            marginLeft: 20,
+                            marginTop: 20,
+                            padding: 15,
+                            marginBottom: 18,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <Text 
+                            style={{
+                                fontWeight: 'bold',
+                                color: '#FDA162',
+                            }} 
+                        >
+                            Uploaded
+                        </Text>
+                    </TouchableOpacity>
+
+                </View>
+                }
+
+                {
+                    showM3 === 'No-show' ?
+                <TouchableOpacity
+                    onPress = {() => {
+                            
+                            onChooseImagePressM3()
+                        }}
+                    style={{
+                        backgroundColor: '#fff',
+                        borderRadius: 50,
+                        width: vw(89),
+                        marginLeft: 20,
+                        marginTop: 20,
+                        padding: 15,
+                        marginBottom: 18,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                >
+                    <Text 
+                        style={{
+                            fontWeight: 'bold',
+                            color: '#FDA162',
+                        }} 
+                       
+                    >
+                        Upload Electricity Bill Of Month 3
+                    </Text>
+                </TouchableOpacity>
+                :
+                <View>
+                    <TouchableOpacity
+                        style={{
+                            backgroundColor: '#fff',
+                            borderRadius: 50,
+                            width: vw(89),
+                            marginLeft: 20,
+                            marginTop: 20,
+                            padding: 15,
+                            marginBottom: 18,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <Text 
+                            style={{
+                                fontWeight: 'bold',
+                                color: '#FDA162',
+                            }} 
+                        >
+                            Uploaded
+                        </Text>
+                    </TouchableOpacity>
+
+                </View>
+                }
+                {
+                    showM4 === 'No-show' ?
+                <TouchableOpacity
+                    onPress = {() => {
+                            
+                            onChooseImagePressM4()
+                        }}
+                    style={{
+                        backgroundColor: '#fff',
+                        borderRadius: 50,
+                        width: vw(89),
+                        marginLeft: 20,
+                        marginTop: 20,
+                        padding: 15,
+                        marginBottom: 18,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                >
+                    <Text 
+                        style={{
+                            fontWeight: 'bold',
+                            color: '#FDA162',
+                        }} 
+                       
+                    >
+                        Upload Electricity Bill Of Month 4
+                    </Text>
+                </TouchableOpacity>
+                :
+                <View>
+                    <TouchableOpacity
+                        style={{
+                            backgroundColor: '#fff',
+                            borderRadius: 50,
+                            width: vw(89),
+                            marginLeft: 20,
+                            marginTop: 20,
+                            padding: 15,
+                            marginBottom: 18,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <Text 
+                            style={{
+                                fontWeight: 'bold',
+                                color: '#FDA162',
+                            }} 
+                        >
+                            Uploaded
+                        </Text>
+                    </TouchableOpacity>
+
+                </View>
+                }
+                {
+                    showM5 === 'No-show' ?
+                <TouchableOpacity
+                    onPress = {() => {
+                            
+                            onChooseImagePressM5()
+                        }}
+                    style={{
+                        backgroundColor: '#fff',
+                        borderRadius: 50,
+                        width: vw(89),
+                        marginLeft: 20,
+                        marginTop: 20,
+                        padding: 15,
+                        marginBottom: 18,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                >
+                    <Text 
+                        style={{
+                            fontWeight: 'bold',
+                            color: '#FDA162',
+                        }} 
+                       
+                    >
+                        Upload Electricity Bill Of Month 5
+                    </Text>
+                </TouchableOpacity>
+                :
+                <View>
+                    <TouchableOpacity
+                        style={{
+                            backgroundColor: '#fff',
+                            borderRadius: 50,
+                            width: vw(89),
+                            marginLeft: 20,
+                            marginTop: 20,
+                            padding: 15,
+                            marginBottom: 18,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <Text 
+                            style={{
+                                fontWeight: 'bold',
+                                color: '#FDA162',
+                            }} 
+                        >
+                            Uploaded
+                        </Text>
+                    </TouchableOpacity>
+
+                </View>
+                }
+                {
+                    showM6 === 'No-show' ?
+                <TouchableOpacity
+                    onPress = {() => {
+                            
+                            onChooseImagePressM6()
+                        }}
+                    style={{
+                        backgroundColor: '#fff',
+                        borderRadius: 50,
+                        width: vw(89),
+                        marginLeft: 20,
+                        marginTop: 20,
+                        padding: 15,
+                        marginBottom: 18,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                >
+                    <Text 
+                        style={{
+                            fontWeight: 'bold',
+                            color: '#FDA162',
+                        }} 
+                       
+                    >
+                        Upload Electricity Bill Of Month 6
+                    </Text>
+                </TouchableOpacity>
+                :
+                <View>
+                    <TouchableOpacity
+                        style={{
+                            backgroundColor: '#fff',
+                            borderRadius: 50,
+                            width: vw(89),
+                            marginLeft: 20,
+                            marginTop: 20,
+                            padding: 15,
+                            marginBottom: 18,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <Text 
+                            style={{
+                                fontWeight: 'bold',
+                                color: '#FDA162',
+                            }} 
+                        >
+                            Uploaded
+                        </Text>
+                    </TouchableOpacity>
+
+                </View>
+                }
+                <Text style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginLeft: 38,
+                    fontWeight: 'bold',
+                }}>Upload Site Image of Directions Mentioned Below</Text>
+                {
+                    showD4 === 'No-show' ?
+                <TouchableOpacity
+                    onPress = {() => {
+                            
+                            onChooseImagePressD4()
+                        }}
+                    style={{
+                        backgroundColor: '#fff',
+                        borderRadius: 50,
+                        width: vw(89),
+                        marginLeft: 20,
+                        marginTop: 20,
+                        padding: 15,
+                        marginBottom: 18,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                >
+                    <Text 
+                        style={{
+                            fontWeight: 'bold',
+                            color: '#FDA162',
+                        }} 
+                       
+                    >
+                        Site Image of East Direction
+                    </Text>
+                </TouchableOpacity>
+                :
+                <View>
+                    <TouchableOpacity
+                        style={{
+                            backgroundColor: '#fff',
+                            borderRadius: 50,
+                            width: vw(89),
+                            marginLeft: 20,
+                            marginTop: 20,
+                            padding: 15,
+                            marginBottom: 18,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <Text 
+                            style={{
+                                fontWeight: 'bold',
+                                color: '#FDA162',
+                            }} 
+                        >
+                            Uploaded
+                        </Text>
+                    </TouchableOpacity>
+
+                </View>
+                }
+                {
+                    showD3 === 'No-show' ?
+                <TouchableOpacity
+                    onPress = {() => {
+                            
+                            onChooseImagePressD3()
+                        }}
+                    style={{
+                        backgroundColor: '#fff',
+                        borderRadius: 50,
+                        width: vw(89),
+                        marginLeft: 20,
+                        marginTop: 20,
+                        padding: 15,
+                        marginBottom: 18,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                >
+                    <Text 
+                        style={{
+                            fontWeight: 'bold',
+                            color: '#FDA162',
+                        }} 
+                       
+                    >
+                        Site Image of West Direction
+                    </Text>
+                </TouchableOpacity>
+                :
+                <View>
+                    <TouchableOpacity
+                        style={{
+                            backgroundColor: '#fff',
+                            borderRadius: 50,
+                            width: vw(89),
+                            marginLeft: 20,
+                            marginTop: 20,
+                            padding: 15,
+                            marginBottom: 18,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <Text 
+                            style={{
+                                fontWeight: 'bold',
+                                color: '#FDA162',
+                            }} 
+                        >
+                            Uploaded
+                        </Text>
+                    </TouchableOpacity>
+
+                </View>
+                }
+                {
+                    showD2 === 'No-show' ?
+                <TouchableOpacity
+                    onPress = {() => {
+                            
+                            onChooseImagePressD2()
+                        }}
+                    style={{
+                        backgroundColor: '#fff',
+                        borderRadius: 50,
+                        width: vw(89),
+                        marginLeft: 20,
+                        marginTop: 20,
+                        padding: 15,
+                        marginBottom: 18,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                >
+                    <Text 
+                        style={{
+                            fontWeight: 'bold',
+                            color: '#FDA162',
+                        }} 
+                       
+                    >
+                        Site Image of North Direction
+                    </Text>
+                </TouchableOpacity>
+                :
+                <View>
+                    <TouchableOpacity
+                        style={{
+                            backgroundColor: '#fff',
+                            borderRadius: 50,
+                            width: vw(89),
+                            marginLeft: 20,
+                            marginTop: 20,
+                            padding: 15,
+                            marginBottom: 18,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <Text 
+                            style={{
+                                fontWeight: 'bold',
+                                color: '#FDA162',
+                            }} 
+                        >
+                            Uploaded
+                        </Text>
+                    </TouchableOpacity>
+
+                </View>
+                }
+                {
+                    showD1 === 'No-show' ?
+                <TouchableOpacity
+                    onPress = {() => {
+                            
+                            onChooseImagePressD1()
+                        }}
+                    style={{
+                        backgroundColor: '#fff',
+                        borderRadius: 50,
+                        width: vw(89),
+                        marginLeft: 20,
+                        marginTop: 20,
+                        padding: 15,
+                        marginBottom: 18,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                >
+                    <Text 
+                        style={{
+                            fontWeight: 'bold',
+                            color: '#FDA162',
+                        }} 
+                       
+                    >
+                        Site Image of South Direction
+                    </Text>
+                </TouchableOpacity>
+                :
+                <View>
+                    <TouchableOpacity
+                        style={{
+                            backgroundColor: '#fff',
+                            borderRadius: 50,
+                            width: vw(89),
+                            marginLeft: 20,
+                            marginTop: 20,
+                            padding: 15,
+                            marginBottom: 18,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <Text 
+                            style={{
+                                fontWeight: 'bold',
+                                color: '#FDA162',
+                            }} 
+                        >
+                            Uploaded
+                        </Text>
+                    </TouchableOpacity>
+
+                </View>
+                }
+                {
+                    show === 'No-show' ?
+                <TouchableOpacity
+                    onPress = {() => {
+                            
+                            onChooseImagePressOI()
+                        }}
+                    style={{
+                        backgroundColor: '#fff',
+                        borderRadius: 50,
+                        width: vw(89),
+                        marginLeft: 20,
+                        marginTop: 20,
+                        padding: 15,
+                        marginBottom: 18,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                >
+                    <Text 
+                        style={{
+                            fontWeight: 'bold',
+                            color: '#FDA162',
+                        }} 
+                       
+                    >
+                        Any Other Image
+                    </Text>
+                </TouchableOpacity>
+                :
+                <View>
+                    <TouchableOpacity
+                        style={{
+                            backgroundColor: '#fff',
+                            borderRadius: 50,
+                            width: vw(89),
+                            marginLeft: 20,
+                            marginTop: 20,
+                            padding: 15,
+                            marginBottom: 18,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <Text 
+                            style={{
+                                fontWeight: 'bold',
+                                color: '#FDA162',
+                            }} 
+                        >
+                            Uploaded
+                        </Text>
+                    </TouchableOpacity>
+
+                </View>
                 }
             <TouchableOpacity
                         onPress = {() => {

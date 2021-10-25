@@ -48,7 +48,7 @@ export const SignUp = ({navigation, route}) => {
                   .then(result => console.log(result))
                   .catch(error => console.log('error', error));
     
-                navigation.navigate('Verification')
+                navigation.navigate('Site')
         }
     }
 

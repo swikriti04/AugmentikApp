@@ -2,6 +2,18 @@
   "expo": {
     "name": "EmployeeApp",
     "slug": "EmployeeApp",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#E1E4E8"
+      }
+    },
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
